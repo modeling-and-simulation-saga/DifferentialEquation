@@ -29,8 +29,8 @@ public class HarmonicOscillator extends Dynamics {
         //微分方程式の記述
         equation = (double xx, double[] yy) -> {
             double dy[] = new double[numVar];
-            dy[0] = yy[1];// dx/dt = v
-            dy[1] = -omega * omega * yy[0];// dv/dt = - omega^2 x
+
+
             return dy;
         };
     }
