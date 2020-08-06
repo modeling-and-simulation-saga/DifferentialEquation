@@ -27,8 +27,8 @@ public class HarmonicOscillator extends AbstractOscillator {
         //微分方程式の記述
         equation = (double xx, double[] yy) -> {
             double dy[] = new double[numVar];
-            dy[0] = y[1];
-            dy[1] = -omega * omega * yy[0];// dv/dt = - omega^2 x
+
+
             return dy;
         };
     }
