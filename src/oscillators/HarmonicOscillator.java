@@ -1,10 +1,8 @@
 package oscillators;
 
-import java.awt.geom.Point2D;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.List;
-import myLib.rungeKutta.Dynamics;
 import myLib.utils.FileIO;
 
 /**
@@ -12,7 +10,7 @@ import myLib.utils.FileIO;
  *
  * @author tadaki
  */
-public class HarmonicOscillator extends Dynamics {
+public class HarmonicOscillator extends AbstractOscillator {
 
     private final double omega;//角速度
 
@@ -29,8 +27,8 @@ public class HarmonicOscillator extends Dynamics {
         //微分方程式の記述
         equation = (double xx, double[] yy) -> {
             double dy[] = new double[numVar];
-
-
+            dy[0] = y[1];
+            dy[1] = -omega * omega * yy[0];// dv/dt = - omega^2 x
             return dy;
         };
     }
@@ -48,13 +46,13 @@ public class HarmonicOscillator extends Dynamics {
         int nstep = 10000;
         // 時間50を10000に区分して、積分を実行
         // 結果を(t,x)のリストで得る
-        List<Point2D.Double> points = sys.evolution(t, nstep);
+        List<OscillatorState> points = sys.evolution(t, nstep);
         // 結果をファイルへ出力
         String filename =HarmonicOscillator.class.getSimpleName()
                 +"-output.txt";
         try (BufferedWriter out = FileIO.openWriter(filename)) {
-            for (Point2D.Double p : points) {
-                FileIO.writeSSV(out, p.x, p.y);
+            for (OscillatorState p : points) {
+                FileIO.writeSSV(out, p.t, p.x);
             }
         }
     }
