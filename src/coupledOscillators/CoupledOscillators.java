@@ -50,8 +50,8 @@ public class CoupledOscillators {
             //1番からn-2番の粒子
             for (int i = 1; i < numOscillators - 1; i++) {
                 int j = 2 * i;
-                dy[j] = yy[j + 1];
-                dy[j + 1] = -k * (-yy[j - 2] + 2 * yy[j] - yy[j + 2]);
+                
+                
             }
             //n-1番の粒子
             int j = 2 * (numOscillators - 1);
