@@ -167,7 +167,6 @@ public class CoupledOscillators {
         // 結果をファイルへ出力
         try ( BufferedWriter out = FileIO.openWriter(filename)) {
             for (OscillatorState[] oscillators : history) {
-                StringBuilder sb = new StringBuilder();
                 FileIO.writeSSV(out,
                         oscillators[0].t,//時刻
                         oscillators[0].x,//振動子１
