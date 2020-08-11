@@ -45,19 +45,25 @@ public class CoupledOscillators {
         equation = (double xx, double[] yy) -> {
             double dy[] = new double[2 * numOscillators];
             //0 番の粒子
-            dy[0] = yy[1];
-            dy[1] = -k * (2 * yy[0] - yy[2]);
+            {
+                int i = 0;
+                int j = 2 * i;
+                dy[j] = yy[j + 1];
+                dy[j + 1] = -k * (2 * yy[j] - yy[j + 2]);
+            }
             //1番からn-2番の粒子
             for (int i = 1; i < numOscillators - 1; i++) {
                 int j = 2 * i;
-                
-                
+                dy[j] = yy[j + 1];
+                dy[j + 1] = -k * (-yy[j - 2] + 2 * yy[j] - yy[j + 2]);
             }
             //n-1番の粒子
-            int j = 2 * (numOscillators - 1);
-            dy[j] = yy[j + 1];
-            dy[j + 1] = -k * (-yy[j - 2] + 2 * yy[j]);
-
+            {
+                int i = numOscillators - 1;
+                int j = 2 * i;
+                dy[j] = yy[j + 1];
+                dy[j + 1] = -k * (-yy[j - 2] + 2 * yy[j]);
+            }
             return dy;
         };
     }
@@ -72,8 +78,8 @@ public class CoupledOscillators {
         //更新後の従属変数の値
         double yy[] = RungeKutta.rk4(t, y, dt, equation);
         //値の更新
-        for(int i=0;i<2*numOscillators;i++){
-            y[i]=yy[i];
+        for (int i = 0; i < 2 * numOscillators; i++) {
+            y[i] = yy[i];
         }
         t += dt;
         //現在の状態をOscillatorとして返す
@@ -159,7 +165,7 @@ public class CoupledOscillators {
         String filename = CoupledOscillators.class.getSimpleName()
                 + "-output.txt";
         // 結果をファイルへ出力
-        try (BufferedWriter out = FileIO.openWriter(filename)) {
+        try ( BufferedWriter out = FileIO.openWriter(filename)) {
             for (OscillatorState[] oscillators : history) {
                 StringBuilder sb = new StringBuilder();
                 FileIO.writeSSV(out,
