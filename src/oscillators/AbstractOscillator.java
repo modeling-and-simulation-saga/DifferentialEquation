@@ -27,6 +27,7 @@ public class AbstractOscillator {
         numVar = 2;
         t = 0;
         yInit = new double[numVar];
+        y = new double[numVar];
         yInit[0] = x;
         yInit[1] = v;
         initialize();
